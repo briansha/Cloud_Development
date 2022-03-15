@@ -1,0 +1,632 @@
+{
+  "name": "mutect_50_samples_orientation",
+  "title": "Mutect2 50 Samples",
+  "summary": "Run GATK Mutect2 and FilterMutectCalls",
+  "dxapi": "1.0.0",
+  "version": "0.0.1",
+  "inputSpec": [
+    {
+      "name": "mutect2_gatk_docker",
+      "class": "file",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_ref_dict",
+      "label": "reference assembly dict",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.dict"
+      ],
+      "help": ""
+    },
+    {
+      "name": "mutect2_ref_fai",
+      "label": "reference assembly index",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.fai"
+      ],
+      "help": ""
+    },
+    {
+      "name": "mutect2_ref_fasta",
+      "label": "reference assembly fasta",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.fa",
+        "*.fasta"
+      ],
+      "help": ""
+    },
+    {
+      "name": "mutect2_scatter_count",
+      "class": "string",
+      "default": "1",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_tumor_reads",
+      "class": "array:file",
+      "optional": false,
+      "patterns": [
+        "*.bam",
+        "*.cram"
+      ],
+      "help": ""
+    },
+    {
+      "name": "mutect2_tumor_reads_index",
+      "class": "array:file",
+      "optional": false,
+      "patterns": [
+        "*.bai",
+        "*.bam.bai",
+        "*.crai",
+        "*.cram.crai"
+      ],
+      "help": ""
+    },
+    {
+      "name": "mutect2_basic_bash_docker",
+      "class": "string",
+      "default": "ubuntu:16.04",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_boot_disk_size",
+      "class": "string",
+      "default": "12",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_compress_vcfs",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_cram_to_bam_multiplier",
+      "class": "string",
+      "default": "6.0",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_emergency_extra_disk",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_filter_alignment_artifacts_mem",
+      "class": "string",
+      "default": "9000",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_filter_funcotations",
+      "class": "string",
+      "default": "true",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_annotation_defaults",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_annotation_overrides",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_compress",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_data_sources_tar_gz",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_default_output_format",
+      "class": "string",
+      "default": "MAF",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_filter_funcotations",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_output_format",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_reference_version",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_transcript_selection_list",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_transcript_selection_mode",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funco_use_gnomad_AF",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funcotator_excluded_fields",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_funcotator_extra_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_gatk_override",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_getpileupsummaries_extra_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_gga_vcf",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_gga_vcf_idx",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_gnomad",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_gnomad_idx",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_intervals",
+      "class": "file",
+      "optional": false,
+      "help": ""
+    },
+    {
+      "name": "mutect2_large_input_to_output_multiplier",
+      "class": "string",
+      "default": "2.25",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_learn_read_orientation_mem",
+      "class": "string",
+      "default": "8000",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_m2_extra_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_m2_extra_filtering_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_make_bamout",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_max_retries",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_normal_reads",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_normal_reads_index",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_pon",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-G5fp8J0JVGgXJvJ31J1Gf5P5",
+              "id": "file-G69XBGjJVGgyV4Vp52279bx1"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_pon_idx",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_preemptible",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_realignment_extra_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_realignment_index_bundle",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_run_funcotator",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_run_orientation_bias_mixture_model_filter",
+      "class": "string",
+      "default": "false",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_sequence_source",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_sequencing_center",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_small_input_to_output_multiplier",
+      "class": "string",
+      "default": "2.0",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_small_task_cpu",
+      "class": "string",
+      "default": "2",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_small_task_disk",
+      "class": "string",
+      "default": "100",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_small_task_mem",
+      "class": "string",
+      "default": "4",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_split_intervals_extra_args",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_variants_for_contamination",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_variants_for_contamination_idx",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "m2_cpu",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "m2_mem",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "m2_use_ssd",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "calculatecontamination_intervals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_optionals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "m2_extra_args_files",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "m2_extra_args_files_idx",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "learnreadorientationmodel_optionals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "calculatecontamination_optionals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "filter_optionals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "filteralignmentartifacts_optionals",
+      "class": "string",
+      "default": "null",
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "mutect2_command_mem",
+      "class": "string",
+      "default": "8000",
+      "optional": false,
+      "help": ""
+    },
+    {
+      "name": "splitintervals_interval_files",
+      "class": "file",
+      "default": {
+          "$dnanexus_link": {
+              "project": "project-id",
+              "id": "file-id"
+          }
+      },
+      "optional": true,
+      "help": ""
+    },
+    {
+      "name": "output_name",
+      "label": "output_name",
+      "class": "string",
+      "optional": true,
+      "default": "mutect.filtered.vcf.gz",
+      "help": ""
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "filtered_vcf_output",
+      "class": "array:file",
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 24
+      }
+    },
+    "interpreter": "bash",
+    "file": "src/mutect_single_orientation.sh",
+    "distribution": "Ubuntu",
+    "execDepends":[
+      {"name": "bcftools"},
+      {"name": "samtools"},
+      {"name": "tabix"}
+    ],
+    "release": "20.04",
+    "version": "0"
+  },
+  "access": {
+    "project": "CONTRIBUTE",
+    "allProjects": "VIEW"
+  },
+  "regionalOptions": {
+    "aws:eu-west-2": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem3_ssd1_v2_x2"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+    "mutect2_gatk_docker": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_ref_dict": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_ref_fai": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_ref_fasta": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_intervals": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_gnomad": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_gnomad_idx": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "m2_extra_args_files": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "m2_extra_args_files_idx": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_pon": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_pon_idx": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_variants_for_contamination": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    },
+    "mutect2_variants_for_contamination_idx": {
+        "$dnanexus_link": {
+            "project": "project-id",
+            "id": "file-id"
+        }
+    }
+}
