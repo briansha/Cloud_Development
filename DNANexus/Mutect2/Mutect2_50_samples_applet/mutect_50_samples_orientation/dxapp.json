@@ -350,8 +350,8 @@
       "class": "file",
       "default": {
           "$dnanexus_link": {
-              "project": "project-G5fp8J0JVGgXJvJ31J1Gf5P5",
-              "id": "file-G69XBGjJVGgyV4Vp52279bx1"
+              "project": "project-id",
+              "id": "file-id"
           }
       },
       "optional": true,

@@ -254,6 +254,29 @@ do
 
     export m2_output_stats="${m2_output_vcf}.stats"
 
+    # Doing it this way isn't best for debugging...
+    # especially if a variable is missing a value in the m2_args array - values get pushed around and will jump out of place.
+    #m2_args=(${m2_intervals} ${m2_ref_fasta} ${m2_ref_fai} ${m2_ref_dict} ${m2_tumor_bam} \
+    #         ${m2_tumor_bai} ${m2_normal_bam} ${m2_normal_bai} ${m2_pon} ${m2_pon_idx} \
+    #         ${m2_gnomad} ${m2_gnomad_idx} ${m2_preemptible} ${m2_max_retries} ${m2_m2_extra_args} \
+    #         ${m2_getpileupsummaries_extra_args} ${m2_variants_for_contamination} ${m2_variants_for_contamination_idx} \
+    #         ${m2_run_ob_filter} ${m2_compress} ${m2_make_bamout} ${m2_gga_vcf} ${m2_gga_vcf_idx} ${m2_gatk_override} \
+    #         ${m2_output_vcf} ${m2_output_vcf_idx} ${m2_output_stats})
+    #
+    #m2_names=(m2_intervals m2_ref_fasta m2_ref_fai m2_ref_dict m2_tumor_bam \
+    #          m2_tumor_bai m2_normal_bam m2_normal_bai m2_pon m2_pon_idx \
+    #          m2_gnomad m2_gnomad_idx m2_preemptible m2_max_retries m2_m2_extra_args \
+    #          m2_getpileupsummaries_extra_args m2_variants_for_contamination m2_variants_for_contamination_idx \
+    #          m2_run_ob_filter m2_compress m2_make_bamout m2_gga_vcf m2_gga_vcf_idx m2_gatk_override \
+    #          m2_output_vcf m2_output_vcf_idx m2_output_stats)
+    # get number of elements
+    #ELEMENTS=${#m2_names[@]}
+    #echo "ELEMENTS: ${ELEMENTS}"
+    # echo each element in array - for loop
+    #for (( i=0;i<$ELEMENTS;i++)); do
+    #    echo "${m2_names[${i}]}: ${m2_args[${i}]}"
+    #done
+
     echo "m2_intervals: ${m2_intervals}"
     echo "m2_ref_fasta: ${m2_ref_fasta}"
     echo "m2_ref_fai: ${m2_ref_fai}"

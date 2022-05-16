@@ -1,8 +1,12 @@
 # Mutect2
+This repository will detail the implementation of an applet on DNANexus that runs 50 samples per job using Mutect2.
 
-This repository will detail the implementation of an applet that runs 50 samples per job.
+## Tutorial
+- Use 0_build_applet.sh, 1_batch_inputs.sh, 2_batch_script.sh, and 3_submission_script.sh in order to submit batch executions.
+- Modify workflow_input.json with correct variables before running batch_script.py
+- Important: "null.txt" - This is a dummy file that can have anything in it, such as "Dummy File". But, it must be named "null.txt". This file must be assigned to any file variable located in mutect_50_samples_orientation/dxapp.json (such as the "m2_extra_args_files" variable) if you do not want that parameter to be used in the analysis. You will need to assign the project ID and the file ID for "null.txt" to the appropriate file variables in the workflow_input.json file.
 
-This repository details the creation of an applet on DNANexus for Mutect2.
+
 
 ### Special Notes
 Since the Splitintervals task is not being used - notes regarding the -L parameter from the Mutect2 command that is present in the M2 task:
@@ -10,43 +14,20 @@ Since the Splitintervals task is not being used - notes regarding the -L paramet
 
 ### Cloud Computing Optimization
 - * Lots to fill out in this section still *
-- Instance type - this is the most important - mem3_ssd1_v2_x2 is the cheapest per hour at 0.0132 euros, 2 CPU, 16 GB memory, and 75 GB storage. Since this should (almost) always be used, you should not try to run more than 60 samples per job (since each cram file is around 1 GB and the instance is limited to 75 GB of storage).
+- Instance type - this is the most important - mem3_ssd1_v2_x2 is the cheapest per hour at 0.0132 euros, 2 CPU, 16 GB memory, and 75 GB storage.
 
 ## Batch Executions
 
-### Option 1: Generate Batch TSV Files
-- Note: This method is only effective at running jobs where one sample is to be processed. It cannot run large sample sets effectively. (Even when re-organizing the tsv files to be [file,file,file...] so that multiple samples are sent to array variables...you will run into an error that prevents you from submitting a TSV file with too many characters per row.)
-- dxpy.exceptions.InvalidInput: Expected key "properties.batch-id" of input to be no longer than 700 UTF-8 encoded bytes, code 422. Request Time=1641366069.1002839, Request ID=1641366069306-846581
-- If you do want to use this to run jobs one sample at a time....note the following below.
-- -imutect2_tumor_reads:
-- * "-i" = "--input"
-- * "mutect2_tumor_reads": This is the variable for the tumor reads that is normally present in the workflow_input.json file.
-```
-dx generate_batch_inputs --path Bulk/'Exome sequences'/'Exome OQFE CRAM files - interim 200k release'/10/ \
--imutect2_tumor_reads="(.*)\.cram$" \
--imutect2_tumor_reads_index="(.*)\.cram.crai$"
-```
-
-### Running a Batch Execution on a Batch TSV File
-- You will need to remove any input to mutect2_tumor_reads and mutect2_tumor_reads_index seen in the workflow_input.json file.
-- Input to these two variables is read from a batch.tsv file - each row and the corresponding column name and will be unique for each job.
-- Number of jobs submitted will equal the number of rows the batch.tsv file contains.
-- Below, the workflow_input.json file is still used, so each job will have values to input variables seen within this file. What will be unique to each job will be the input to the mutect2_tumor_reads and mutect2_tumor_reads_index seen within each row in the batch.tsv file.
-```
-dx run applet-id \
---input-json-file workflow_input.json \
---priority normal \
--y \
---destination "project-name":/mutect2_workflow_test \
---instance-type mem3_ssd1_v2_x2 \
---batch-tsv dx_batch.0000.tsv
-```
-
-### Option 2: Batch Preparation for Large Sample Sets
+### Best option: Batch Preparation for Large Sample Sets
 - https://dnanexus.gitbook.io/uk-biobank-rap/science-corner/guide-to-analyzing-large-sample-sets
+- Login to DNANexus
+```
+dx login
+```
+
 - Build the applet.
 ```
-dx build mutect_arbitrary_samples_orientation --destination "project-name":/workflows/mutect2/ --overwrite
+dx build mutect_50_samples_orientation --destination "App 43397 - Bicklab & TBIlab":/workflows/mutect2/ --overwrite
 ```
 - Grab the number of samples you'd like (check batch_inputs.sh if you need to edit)
 ```
@@ -56,7 +37,7 @@ chmod 700 batch_inputs.sh
 - Prepare all of the dx run commands
 - Order of arguments to the python script: applet id, batch size, instance type, destination folder.
 ```
-python3 batch_script.py applet-id "project-name":/mutect2_workflow_test/50_samples_per_job_test > submission_command.txt
+python3 batch_script.py applet-G7FgP08JVGgfBX6g9YF8gkX4 50 "App 43397 - Bicklab & TBIlab":/mutect2_workflow_test/50_samples_per_job_test > submission_command.txt
 ```
 - Check the first command
 ```
@@ -85,7 +66,7 @@ sh submission_command_newad
 ### Building the app:
 - The applet ID is generated once finished.
 ```
-dx build mutect_arbitrary_samples_orientation --destination "project-name":/workflows/mutect2/ --overwrite
+dx build mutect_arbitrary_samples_orientation --destination "App 43397 - Bicklab & TBIlab":/workflows/mutect2/ --overwrite
 ```
 
 ### Finding Stage IDs and Input Names:
@@ -107,7 +88,7 @@ dx run <applet_id> \
 --input-json-file workflow_input.json \
 --priority normal \
 -y \
---destination "project-name":/mutect2_workflow_test \
+--destination "App 43397 - Bicklab & TBIlab":/mutect2_workflow_test \
 --instance-type mem3_ssd1_v2_x2
 ```
 
@@ -127,6 +108,7 @@ dx watch <job_id>
 - Example - mutect2_m2_extra_args: '--downsampling-stride 20 --max-reads-per-alignment-start 6 --max-suspicious-reads-per-alignment-start 6 -alleles'
 
 ![issues](issues/issue1.png)
+
 
 ## Resources:
 

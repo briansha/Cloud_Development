@@ -66,6 +66,7 @@ main() {
     #echo "Entire array? ${mutect2_tumor_reads_path}" #nope - just the first element
     echo "${mutect2_tumor_reads_path[1]}" # index 1
     #echo "${mutect2_tumor_reads[1]_path}" #bad substitution
+    #echo "${mutect2_tumor_reads[@]_path}"
     echo "${mutect2_tumor_reads_path[@]}" #entire array
 
     docker load --input ${mutect2_gatk_docker_path}

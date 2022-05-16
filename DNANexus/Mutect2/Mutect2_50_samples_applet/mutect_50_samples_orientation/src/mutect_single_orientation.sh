@@ -42,11 +42,10 @@ main() {
     #echo "Entire array? ${mutect2_tumor_reads_path}" #nope - just the first element
     echo "${mutect2_tumor_reads_path[1]}" # index 1
     #echo "${mutect2_tumor_reads[1]_path}" #bad substitution
+    #echo "${mutect2_tumor_reads[@]_path}"
     echo "${mutect2_tumor_reads_path[@]}" #entire array
 
     docker load --input ${mutect2_gatk_docker_path}
-
-    # Un-used
     ## get <eid>_23153_0_0 from <eid>_23153_0_0.bqsr.bam
     eid_nameroot=$(echo $mutect2_tumor_reads_name | cut -d'.' -f1)
     output_name="$eid_nameroot.mutect.filtered.vcf.gz"
@@ -86,6 +85,8 @@ main() {
         ${mutect2_normal_reads_prefix} ${mutect2_normal_reads_name} ${mutect2_command_mem} ${splitintervals_interval_files_path} ${output_name} \
         "${mutect2_tumor_reads_path[@]}" "${mutect2_tumor_reads_prefix[@]}" "${mutect2_tumor_reads_name[@]}" "${filtered_vcf[@]}"
 
+    #filtered_vcf_output=$(dx upload "${filtered_vcf}" --brief)
+    #dx-jobutil-add-output filtered_vcf_output "${filtered_vcf_output}" --class=file
     for (( i=0; i<${#mutect2_tumor_reads[@]}; i++ ));
     do
         filtered_vcf_output=$(dx upload "${filtered_vcf[i]}" --brief)
